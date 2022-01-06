@@ -18,8 +18,6 @@ RUN apt-get update && \
 # Set password for the jenkins user (you may want to alter this).
     echo "jenkins:jenkins" | chpasswd
 
-RUN chown -R jenkins:jenkins /home/jenkins/.ssh/
-
 EXPOSE 22
 
 CMD ["/usr/sbin/sshd", "-D"]
