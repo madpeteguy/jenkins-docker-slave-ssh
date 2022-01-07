@@ -36,7 +36,7 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
       - name: Login to DockerHub
-        if: github.event_name == 'release' && github.event.action == 'created'
+        if: github.event_name == 'release' && github.event.action == 'created' || github.event_name == 'push' && contains(github.head_ref, 'main')
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -47,5 +47,13 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name == 'release' && github.event.action == 'created' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      - name: Build and push nightly
+        id: docker_build_nightly
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: ${{ github.event_name == 'push' && contains(github.head_ref, 'main') }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
