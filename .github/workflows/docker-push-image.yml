@@ -55,5 +55,5 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: madpeteguy/jenkins-docker-slave-ssh:nightly
           labels: ${{ steps.meta.outputs.labels }}
