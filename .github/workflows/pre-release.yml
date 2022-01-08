@@ -20,11 +20,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Get release notes
-        id: get-release-notes
-        uses: yashanand1910/standard-release-notes@v1.2.1
-        with:
-          version: ${{ github.ref }}
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -33,6 +28,6 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          body: ${{ steps.get-release-notes.outputs.release_notes }}
+          body: Fill me
           draft: true
           prerelease: false
