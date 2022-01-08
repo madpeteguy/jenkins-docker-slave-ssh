@@ -26,8 +26,6 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: madpeteguy/jenkins-docker-slave-ssh
-      - name: Save docker-metadata.json
-        run: echo '${{ steps.docker-metadata.outputs.json }}' > docker-metadata.json
       - name: Build docker image
         uses: docker/build-push-action@v2
         with:
@@ -37,13 +35,6 @@ jobs:
           labels: ${{ steps.docker-metadata.outputs.labels }}
       - name: Save docker image
         run: docker save -o docker-image.tar madpeteguy/jenkins-docker-slave-ssh:test
-      - name: Upload docker-metadata.json
-        uses: actions/upload-artifact@v2
-        with:
-          name: docker-metadata
-          path: docker-metadata.json
-          if-no-files-found: error
-          retention-days: 1
       - name: Upload docker-image.tar
         uses: actions/upload-artifact@v2
         with:
@@ -55,28 +46,11 @@ jobs:
     name: Test docker image
     runs-on: ubuntu-latest
     needs: build-docker-image
-    env:
-      COMPOSE_FILE: docker-compose.yml
     steps:
-      - name: Download docker-metadata.json
-        uses: actions/download-artifact@v2
-        with:
-          name: docker-metadata
       - name: Download docker-image.tar
         uses: actions/download-artifact@v2
         with:
           name: docker-image
-      - id: load-docker-metadata
-        name: Load docker-metadata.json
-        run: |
-          ls .
-          content=`cat ./docker-metadata.json`
-          # the following lines are only required for multi line json
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-          echo "::set-output name=dockerMeta::$content"
       - name: Load images
         run: docker load --input docker-image.tar
       - name: Test container up
@@ -85,3 +59,12 @@ jobs:
         run: docker run --rm -p 127.0.0.1:9924:22/tcp madpeteguy/jenkins-docker-slave-ssh:test sh -c "/usr/sbin/sshd & service ssh status"
       - name: Test ssh connect
         run: docker run --rm -p 127.0.0.1:9925:22/tcp madpeteguy/jenkins-docker-slave-ssh:test sh -c "/usr/sbin/sshd && apt install -qq -y sshpass && sshpass -p 'jenkins' ssh -o StrictHostKeyChecking=no -v jenkins@127.0.0.1 hostname"
+  cleanup-artifacts:
+    name: Cleanup artifacts
+    runs-on: ubuntu-latest
+    needs: [ build-docker-image, test-docker-image ]
+    steps:
+      - name: Cleanup docker-image.tar
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: docker-image
