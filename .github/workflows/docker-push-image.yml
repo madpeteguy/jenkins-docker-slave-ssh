@@ -56,7 +56,7 @@ jobs:
       - name: Test container up
         run: docker run --rm madpeteguy/jenkins-docker-slave-ssh:test hostname
       - name: Test sshd start
-        run: docker run --rm -p 127.0.0.1:9924:22/tcp madpeteguy/jenkins-docker-slave-ssh:test sh -c "/usr/sbin/sshd & service ssh status"
+        run: docker run --rm -p 127.0.0.1:9924:22/tcp madpeteguy/jenkins-docker-slave-ssh:test sh -c "/usr/sbin/sshd && service ssh status"
       - name: Test ssh connect
         run: docker run --rm -p 127.0.0.1:9925:22/tcp madpeteguy/jenkins-docker-slave-ssh:test sh -c "/usr/sbin/sshd && apt install -qq -y sshpass && sshpass -p 'jenkins' ssh -o StrictHostKeyChecking=no -v jenkins@127.0.0.1 hostname"
   cleanup-artifacts:
