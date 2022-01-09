@@ -2,7 +2,7 @@ name: Release build
 
 on:
   release:
-    types: [ released, published, created, edited ]
+    types: [ released, published ]
   workflow_dispatch:
 
 jobs:
