@@ -57,16 +57,9 @@ jobs:
             // because we track the duration of runs over time
             
             const workflows = [
-              'aws_ami_builder.yml',
-              'aws_ec2_rebooter.yml',
-              'aws_ec2_terminator.yml',
-              'code_coverage.yml',
-              'docker_staging.yml',
-              'github_release.yml',
-              'qa_branch_updater.yml',
-              'sonar-scanner.yml',
-              'test_flaky.yml',
-              'workflow_run_pruner.yml'
+              'docker-publish-image-nightly.yml',
+              'test-docker-image.yml',
+              'make-release-for-tag.yml'
             ]
             
             let runs_to_delete = [];
@@ -119,7 +112,7 @@ jobs:
                 page: page,
                 per_page: 100,
                 repo: context.repo.repo,
-                workflow_id: 'workflow_run_pruner.yml'
+                workflow_id: 'clean-old-workflows.yml'
               });
             
               if (response.data.workflow_runs.length > 0) {
