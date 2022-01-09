@@ -19,16 +19,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-#      - name: Create Release
-#        id: create_release
-#        uses: softprops/action-gh-release@v1
-#        with:
-#          name: Release ${{ github.ref_name }}
-#          tag_name: ${{ github.ref }}
-#          draft: true
-#          prerelease: false
-#          generate_release_notes: true
-#          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Create Release
         id: create_release
         uses: ncipollo/release-action@v1
