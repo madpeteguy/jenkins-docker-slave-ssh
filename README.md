@@ -1,4 +1,4 @@
-![GitHub release](https://img.shields.io/github/release/madpeteguy/jenkins-docker-slave-ssh.svg?style=flat-square)
+![GitHub release](https://img.shields.io/github/release/madpeteguy/jenkins-docker-slave-ssh.svg)
 ![Main branch status](https://github.com/madpeteguy/jenkins-docker-slave-ssh/actions/workflows/test-docker-image.yml/badge.svg?branch=main)
 ![Contributors](https://img.shields.io/github/contributors/madpeteguy/jenkins-docker-slave-ssh)
 ![Commit activity](https://img.shields.io/github/commit-activity/m/madpeteguy/jenkins-docker-slave-ssh)
