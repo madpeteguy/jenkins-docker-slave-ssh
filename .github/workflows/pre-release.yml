@@ -1,4 +1,4 @@
-name: CD - GitHub Release
+name: CD - Make GitHub Release
 
 on:
   push:
