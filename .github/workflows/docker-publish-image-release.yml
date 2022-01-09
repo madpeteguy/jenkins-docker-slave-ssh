@@ -2,12 +2,13 @@ name: Release build
 
 on:
   release:
-    types: [ released ]
+    types: [ released, published, created, edited ]
   workflow_dispatch:
 
 jobs:
   build:
     name: Build and publish docker image
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
