@@ -1,4 +1,4 @@
-name: CD - Publish docker image release
+name: Release build
 
 on:
   release:

@@ -1,4 +1,4 @@
-name: CD - Publish docker image nightly
+name: Nightly build
 
 on:
   push:
