@@ -27,7 +27,7 @@ jobs:
         with:
           images: madpeteguy/jenkins-docker-slave-ssh
       - name: Build docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: .
           outputs: type=docker
