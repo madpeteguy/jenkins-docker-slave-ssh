@@ -12,6 +12,8 @@ RUN apt-get update && \
     apt-get install -qy openssh-server && \
     sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd && \
     mkdir -p /var/run/sshd && \
+# Install tools
+    apt-get install -qy curl jq && \
 # Install JDK 11
     apt-get install -qy openjdk-11-jdk && \
 # Cleanup old packages
