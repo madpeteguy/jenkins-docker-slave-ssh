@@ -1,27 +1,17 @@
-FROM ubuntu:24.04
+FROM alpine:3.19.1
 
 LABEL maintainer="Mad Pete Guy"
 
 # Update and install git.
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && \
-    apt-get -qy full-upgrade && \
-    apt-get install -qy git && \
-# Install a basic SSH server
-    apt-get install -qy openssh-server && \
-    sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd && \
+RUN apk add --update --no-cache openssh git curl jq openjdk11 && \
+    ssh-keygen -A && \
+    rm -rf /var/cache/apk/* && \
     mkdir -p /var/run/sshd && \
-# Install tools
-    apt-get install -qy curl jq && \
-# Install JDK 11
-    apt-get install -qy openjdk-11-jdk && \
-# Cleanup old packages
-    apt-get -qy autoremove && \
-# Add user jenkins to the image
-    adduser --quiet jenkins && \
-# Set password for the jenkins user (you may want to alter this).
-    echo "jenkins:jenkins" | chpasswd
+    echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
+RUN adduser -h /home/jenkins -s /bin/sh -D jenkins && \
+    echo -n 'jenkins:jenkins' | chpasswd
 
 EXPOSE 22
 
