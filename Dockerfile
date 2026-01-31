@@ -14,8 +14,8 @@ RUN apt-get update && \
     mkdir -p /var/run/sshd && \
 # Install tools
     apt-get install -qy curl jq && \
-# Install JDK 17
-    apt-get install -qy openjdk-17-jdk && \
+# Install JDK 21
+    apt-get install -qy openjdk-21-jdk && \
 # Cleanup old packages
     apt-get -qy autoremove && \
 # Add user jenkins to the image
